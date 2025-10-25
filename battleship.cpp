@@ -8,7 +8,7 @@
  *
  * Driver of the Battleship game.
  */
-// Testing: Duli Kim
+// Testing: sally koh
 
 #include <iostream>
 #include <string>
