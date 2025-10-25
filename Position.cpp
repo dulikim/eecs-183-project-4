@@ -4,8 +4,8 @@
  * Position.cpp
  * Project UID 95f0d1fcee98fd521df7bce6625c2263
  *
- * <#Name#>
- * <#Uniqname#>
+ * Sally Koh, Duli Kim
+ * sykoh, dulikim
  *
  * Project 4: Battleship
  *
