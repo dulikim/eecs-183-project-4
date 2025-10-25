@@ -5,7 +5,7 @@
  * Project UID 8885f2d9f10d2f99bc099aa9c3fc0543
  *
  * Project 4: Battleship
- *
+ * Sally Koh
  * Contains functions for testing classes in the project. 
  */
 
