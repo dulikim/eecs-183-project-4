@@ -38,7 +38,24 @@ void startTests() {
 }
 
 void test_position() {
-    // Write your tests here
+    Position p1;
+    // test of the other constructor
+    Position p2(3, 9);
+
+    // test of member function: set_row(int row_in)
+    p1.set_row(5);
+    // test of member function: set_col(int col_in)
+    p1.set_col(3);
+
+    // test of member functions get_row() and get_col()
+    cout << "( " << p1.get_row()
+         << ", " << p1.get_col()
+         << " )" << endl;
+
+    // you can also do cin >> p1;
+    p1.read(cin);
+    cout << p1 << endl;
+    
     return;
 }
 
