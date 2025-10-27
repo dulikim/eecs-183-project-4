@@ -41,6 +41,9 @@ void startTests() {
 }
 
 void test_position() {
+    cout << "TESTING: Position Class" << endl;
+    
+    // test of default constructor
     Position p1;
     // test of the other constructor
     Position p2(3, 9);
@@ -51,15 +54,38 @@ void test_position() {
     p1.set_col(3);
 
     // test of member functions get_row() and get_col()
-    cout << "( " << p1.get_row()
+    cout << "(" << p1.get_row()
          << ", " << p1.get_col()
-         << " )" << endl;
+         << ")" << endl;
 
     // you can also do cin >> p1;
     p1.read(cin);
     cout << p1 << endl;
-    
-    return;
+
+    // test of check range
+    p1.set_row(20);
+    p1.set_col(-4);
+    cout <<"Expected: (8,A), ";
+    cout << "Out of range (20,-4) adjusted: ";
+    p1.write(cout);
+    cout << endl;
+
+    // Read() function
+    cout << "Enter position: ";
+    p1.read(cin);
+    cout << "You entered: ";
+    p1.write(cout);
+    cout << endl;
+
+    // Test lowercase input with stringstream
+    istringstream input("(5,g)");
+    Position p3;
+    p3.read(input);
+    cout << "Expected: (5,G), ";
+    cout << "Read from '(5,g)': ";
+    p3.write(cout);
+    cout << endl;
+
 }
 
 void test_ship() {

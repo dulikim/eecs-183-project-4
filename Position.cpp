@@ -9,7 +9,6 @@
  *
  * Project 4: Battleship
  *
- * <#description#>
  * Implements the Position class that represents a single coordinate on the Battleship game grid
  */
 
@@ -83,7 +82,6 @@
          is >> trash >> row_in >> trash >> col_in >> trash;
      }
  
-     // TODO: set row and col here
      row = check_range(row_in - 1);               
      col = check_range(toupper(col_in) - 'A');
      return;
