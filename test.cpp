@@ -5,7 +5,10 @@
  * Project UID 8885f2d9f10d2f99bc099aa9c3fc0543
  *
  * Project 4: Battleship
- * Sally Koh
+ * 
+ * Duli Kim & Sally Koh
+ * dulikim & sykoh
+ * 
  * Contains functions for testing classes in the project. 
  */
 
@@ -60,8 +63,70 @@ void test_position() {
 }
 
 void test_ship() {
-    // Write your tests here
-    return;
+    cout << "===============================" << endl;
+    cout << "TESTING: Ship Class" << endl;
+    cout << "===============================" << endl;
+
+    // 1. Test default constructor 
+    Ship s_default;
+    cout << "Default Constructor:" << endl;
+    cout << "Start: " << s_default.get_start() << " | End: " << s_default.get_end()
+         << " | Size: " << s_default.get_size() << endl;
+    cout << endl;
+
+    // 2. Test non-default constructor (horizontal)
+    Position p1(1, 1);   // (1, A)
+    Position p2(1, 3);   // (1, C)
+    Ship s1(p1, p2);
+
+    cout << "Horizontal Ship Constructor:" << endl;
+    cout << "Expected size = 3 -> Got: " << s1.get_size() << endl;
+    cout << "Expected horizontal = 1 -> Got: " << s1.is_horizontal() << endl;
+    cout << "Has (1,2)? Expected 1 -> Got: " << s1.has_position(Position(1, 2)) << endl;
+    cout << "Has (2,2)? Expected 0 -> Got: " << s1.has_position(Position(2, 2)) << endl;
+    cout << endl;
+
+    // 3. Test non-default constructor (vertical) ===
+    Position p3(3, 5);   // (3, E)
+    Position p4(6, 5);   // (6, E)
+    Ship s2(p3, p4);
+
+    cout << "Vertical Ship Constructor:" << endl;
+    cout << "Expected size = 4 -> Got: " << s2.get_size() << endl;
+    cout << "Expected horizontal = 0 -> Got: " << s2.is_horizontal() << endl;
+    cout << "Has (5,5)? Expected 1 -> Got: " << s2.has_position(Position(5, 5)) << endl;
+    cout << "Has (5,6)? Expected 0 -> Got: " << s2.has_position(Position(5, 6)) << endl;
+    cout << endl;
+
+    // 4. Test reversed order (end before start)
+    Position p5(7, 7);   // (7, G)
+    Position p6(7, 3);   // (7, C)
+    Ship s3(p5, p6);     // reversed horizontally
+
+    cout << "Reversed Horizontal Ship:" << endl;
+    cout << "Expected size = 5 -> Got: " << s3.get_size() << endl;
+    cout << "Has (7,5)? Expected 1 -> Got: " << s3.has_position(Position(7, 5)) << endl;
+    cout << "Has (7,2)? Expected 0 -> Got: " << s3.has_position(Position(7, 2)) << endl;
+    cout << endl;
+
+    // 5. Test hit() and has_sunk()
+    Ship s4(Position(2, 2), Position(2, 4)); // size 3
+
+    cout << "Hit & Sunk Tests:" << endl;
+    cout << "Expected sunk = 0 -> Got: " << s4.has_sunk() << endl;
+
+    s4.hit();
+    cout << "After 1 hit -> Sunk? Expected 0 -> Got: " << s4.has_sunk() << endl;
+
+    s4.hit();
+    s4.hit();
+    cout << "After 3 hits -> Sunk? Expected 1 -> Got: " << s4.has_sunk() << endl;
+
+    // Try hitting more than size (should not increment further)
+    s4.hit();
+    cout << "After extra hit -> Still sunk? Expected 1 -> Got: " << s4.has_sunk() << endl;
+
+    cout << endl;
 }
 
 void test_player() {
