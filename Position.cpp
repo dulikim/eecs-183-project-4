@@ -10,6 +10,7 @@
  * Project 4: Battleship
  *
  * <#description#>
+ * Implements the Position class that represents a single coordinate on the Battleship game grid
  */
 
 #include "Position.h"
@@ -17,45 +18,53 @@
 
 
 Position::Position() {
-    // TODO: write implementation here.
+    row = 0;
+    col = 0;
 }
 
 Position::Position(int row_in, int col_in) {
-    // TODO: write implementation here.
+    row = check_range(row_in);
+    col = check_range(col_in);
 }
 
 Position::Position(char row_in, char col_in) {
-    // TODO: write implementation here.
+    row = check_range(row_in - '1');
+    col = check_range(toupper(col_in) - 'A');
 }
 
 int Position::get_row() {
-    // TODO: write implementation here.
-    return -1;
+    return row;
 }
 
 void Position::set_row(int row_in) {
-    // TODO: write implementation here.
+    row = check_range(row_in);
     return;
 }
 
 int Position::get_col() {
-    // TODO: write implementation here.
-    return -1;
+    return col;
 }
 
 void Position::set_col(int col_in) {
-    // TODO: write implementation here.
+    col = check_range(col_in);
     return;
 }
 
 void Position::write(ostream &os) {
-    // TODO: write implementation here.
+    os << "(" << (row + 1) << "," << static_cast<char>('A' + col) << ")";
     return;
 }
 
 int Position::check_range(int val) {
-    // TODO: write implementation here.
-    return -1;
+    if (val >= MAX_GRID_SIZE) {
+        return MAX_GRID_SIZE - 1;
+    }
+    else if (val < 0) {
+        return 0;
+    }
+    else {
+        return val;
+    }
 }
 
 void Position::read(istream& is) {
@@ -75,8 +84,8 @@ void Position::read(istream& is) {
     }
 
     // TODO: set row and col here
-
-
+    row = check_range(row_in - 1);               
+    col = check_range(toupper(col_in) - 'A');
     return;
 }
 
