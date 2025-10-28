@@ -156,9 +156,74 @@ void test_ship() {
 }
 
 void test_player() {
-    // Write your tests here
-    return;
+    cout << "===============================" << endl;
+    cout << "TESTING: Player Class" << endl;
+    cout << "===============================" << endl;
+
+    // 1. Test default constructor
+    Player p1;
+    cout << "\n[TEST] Default constructor:" << endl;
+    cout << "Expected: blank name, empty grid" << endl;
+    cout << "Actual name: " << p1.get_name() << endl;
+    cout << "Printing grid..." << endl;
+    p1.print_grid();
+
+    // 2. Test parameterized constructor
+    Player p2("Alice");
+    cout << "\n[TEST] Parameterized constructor:" << endl;
+    cout << "Expected name: Alice" << endl;
+    cout << "Actual name: " << p2.get_name() << endl;
+
+    // 3. Test add_ship() with horizontal and vertical ships
+    cout << "\n[TEST] add_ship() function:" << endl;
+
+    Position start1(3, 'A');
+    Position end1(3, 'C');   // Horizontal ship (size 3)
+    Ship ship1(start1, end1);
+    p2.add_ship(ship1);
+
+    Position start2(5, 'E');
+    Position end2(7, 'E');   // Vertical ship (size 3)
+    Ship ship2(start2, end2);
+    p2.add_ship(ship2);
+
+    cout << "Grid after adding 2 ships (expect *'s at (3,A–C) and (5–7,E)):" << endl;
+    p2.print_grid();
+
+    // 4. Test load_grid_file()
+    cout << "\n[TEST] load_grid_file() function:" << endl;
+    Player p3("CPU");
+    bool loaded = p3.load_grid_file("grid1.txt");
+    cout << "File loaded? " << boolalpha << loaded << endl;
+    cout << "Grid after loading grid1.txt:" << endl;
+    p3.print_grid();
+
+    // 5. Test attack()
+    cout << "\n[TEST] attack() function:" << endl;
+    // p1 attacks p2 at (3,B) – should be a hit
+    Position attackPos1(3, 'B');
+    p1.attack(p2, attackPos1);
+
+    // p1 attacks p2 at (1,A) – should be a miss
+    Position attackPos2(1, 'A');
+    p1.attack(p2, attackPos2);
+
+    cout << "Printing p1 guess grid after 2 attacks:" << endl;
+    p1.print_guess_grid();
+
+    // 6. Test destroyed()
+    cout << "\n[TEST] destroyed() function:" << endl;
+    cout << "Expected false (ships remaining): " << boolalpha << p2.destroyed() << endl;
+    cout << "Manually setting remaining_ships = 0 for test..." << endl;
+    // (Pretend all ships are sunk)
+    for (int i = 0; i < 5; ++i) {
+        p2.remaining_ships = 0;
+    }
+    cout << "Expected true: " << boolalpha << p2.destroyed() << endl;
+
+    cout << "\n[END OF PLAYER TESTS]" << endl;
 }
+
 
 void test_project_setup() {
     // open file to verify setup
