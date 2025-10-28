@@ -62,6 +62,7 @@
  
  void Player::add_ship(Ship ship) {
      // TODO: write implementation here.
+     
      return;
  }
  
@@ -69,24 +70,53 @@
      int r = pos.get_row();
      int c = pos.get_col();
      
-     //if pos hasn't been hit yet
-     
      //Print "miss" if pos has been hit yet
      if (opponent.grid[r][c] == HIT_LETTER || opponent.grid[r][c] == MISS_LETTER) {
          cout << name << " " << pos << " miss" << endl;
          return;
      }
-     //when the ship sink
-     if (opponent.grid[r][c] )
+     
+     //Mark as SHIP_LETTER if it has been hit
+     if (opponent.grid[r][c] == SHIP_LETTER) {
+         opponent.grid[r][c] = HIT_LETTER;
+         guess_grid[r][c] = HIT_LETTER;
+         cout << name << " " << pos << " hit" << endl;
          
+         //Check which ship has been hit
+         for (int i = 0; i < opponent.num_ships; ++i) {
+             if (opponent.ships[i].has_position(pos)) {
+                 opponent.ships[i].hit();
+                 //Check if the ship has sunk
+                 if (opponent.ships[i].has_sunk()) {
+                     opponent.remaining_ships--;
+                     announce_ship_sunk(opponent.ships[i].get_size());
+                 }
+             }
+         }
+     }
+     //Mark as MISS_LETTER if it hit the empty space
+     else {
+         opponent.grid[r][c] = MISS_LETTER;
+         guess_grid[r][c] = MISS_LETTER;
+         cout << name << " " << pos << " miss" << endl;
+         return;
          
-         
-     return;
+     }
  }
  
  void Player::announce_ship_sunk(int size) {
-     // TODO: write implementation here.
-     return;
+     if (size == 2) {
+         cout << "Congratulations " << name << "! You sunk a Destroyer" << endl;
+     }
+     else if (size == 3) {
+         cout << "Congratulations " << name << "! You sunk a Submarine" << endl;
+     }
+     else if (size == 4) {
+         cout << "Congratulations " << name << "! You sunk a Battleship" << endl;
+     }
+     else if (size == 5) {
+         cout << "Congratulations " << name << "! You sunk a Carrier" << endl;
+     }
  }
  
  bool Player::load_grid_file(string filename) {
