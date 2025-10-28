@@ -4,8 +4,8 @@
  * Game.cpp
  * Project UID 95f0d1fcee98fd521df7bce6625c2263
  *
- * <#Name#>
- * <#Uniqname#>
+ * <Duli Kim & Sally Koh>
+ * <dulikim & sykoh>
  *
  * Project 4: Battleship
  *
@@ -16,37 +16,140 @@
 
 #include "Game.h"
 
-
 Game::Game() {
-    // TODO: write implementation here.
+    p1 = Player();
+    p2 = Player();
 }
 
 Game::Game(Player player1, string grid1, Player player2, string grid2) {
-    // TODO: write implementation here.
+    player1 = p1;
+    player2 = p2;
+
+    // p1 setup
+    if (!grid1.empty()) {
+        // Try to load from file
+        bool loaded = p1.load_grid_file(grid1);
+        if (!loaded) {
+            cout << "Generating random grid for " << p1.get_name() << endl;
+            generate_random_grid(p1);
+        }
+    }
+    else {
+        // No filename provided → random grid
+        cout << "Generating random grid for " << p1.get_name() << endl;
+        generate_random_grid(p1);
+    }
+
+    // p2 setup
+    if (!grid2.empty()) {
+        bool loaded = p2.load_grid_file(grid2);
+        if (!loaded) {
+            cout << "Generating random grid for " << p2.get_name() << endl;
+            generate_random_grid(p2);
+        }
+    }
+    else {
+        cout << "Generating random grid for " << p2.get_name() << endl;
+        generate_random_grid(p2);
+    }
 }
 
+
 Player Game::get_p1() {
-    // TODO: write implementation here.
-    return Player();
+    return p1;
 }
 
 Player Game::get_p2() {
-    // TODO: write implementation here.
-    return Player();
+    return p2;
 }
 
 string Game::get_move(string player_name) {
-    // TODO: write implementation here.
-    return "";
+    string move;
+    cout << player_name << " enter your move:"
+    cin >> move;
+    return move;
 }
 
 bool Game::check_valid_move(string move) {
-    // TODO: write implementation here.
-    return false;
+    // Error 1: checking string length
+    if (move.length() != 2) {
+        cout << p1.get_move() << " you entered an invalid input" << endl;
+        return false'
+    }
+
+    // extracting row and col chars from string
+    char rowChar = move[0];
+    char colChar = move[1];
+
+    // converting lowercase to uppercase 
+    if (colChar >= 'a' && colChar <= 'h') {
+        colChar = toupper(colChar);
+    }
+
+    // Error 2: checking row and column range
+    if (rowChar < '1' || rowChar > '8' || colChar < 'A' || colChar > 'H') {
+        cout << p1.get_name() << " you entered an invalid position" << endl;
+        return false;
+    }
+
+    // Valid Move: passed both checks
+    return true;
 }
 
 void Game::start(char difficulty, int max_num_rounds) {
-    // TODO: write implementation here.
+    int round = 0;
+
+    // continue until someone wins or we reach the round limit
+    while (!p1.destroyed() && !p2.destroyed() && round < max_num_rounds) {
+        round++;
+
+        // p1 turn
+        string move = get_move(p1.get_name());
+        while (!check_valid_move(move)) {
+            move = get_move(p1.get_name());
+        }
+
+        // converting move string to positions
+        Position pos(move);
+        p1.attack(p2, pos);
+
+        // print grids
+        cout << "Your grid" << endl;
+        p1.print_grid();
+
+        cout << p2.get_name() << "'s grid" << endl;
+        p1.print_guess_grid();
+
+        // check if p1 won
+        if (p2.destroyed()) {
+            cout << "Game over, winner is " << p1.get_name()
+                 << " in " << round << " rounds" << endl;
+            break; // Don’t let CPU move after p1 wins
+        }
+
+        // p2 turn (CPU)
+        opponent_make_move(difficulty);
+
+        // print grids
+        cout << "Your grid" << endl;
+        p1.print_grid();
+
+        cout << p2.get_name() << "'s grid" << endl;
+        p1.print_guess_grid();
+
+        // check if p2 wins
+        if (p1.destroyed()) {
+            cout << "Game over, winner is " << p2.get_name()
+                 << " in " << round << " rounds" << endl;
+            break;
+        }
+    }
+
+    // If game ended due to reaching max rounds and no one destroyed
+    if (!p1.destroyed() && !p2.destroyed() && round == max_num_rounds) {
+        cout << "Game over, winner is " << p1.get_name()
+             << " in " << round << " rounds" << endl;
+    }
 }
 
 // Your code goes above this line.
