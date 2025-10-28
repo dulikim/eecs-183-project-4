@@ -77,11 +77,11 @@ void test_position() {
     p1.write(cout);
     cout << endl;
 
-    // Test lowercase input with stringstream
-    istringstream input("(5,g)");
+    // Test lowercase
     Position p3;
-    p3.read(input);
-    cout << "Expected: (5,G), ";
+    cout << "Enter a lowercase position: ";
+    p3.read(cin);
+    cout << endl << "Expected: (5,G), ";
     cout << "Read from '(5,g)': ";
     p3.write(cout);
     cout << endl;

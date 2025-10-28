@@ -27,6 +27,7 @@
  }
  
  Position::Position(char row_in, char col_in) {
+    //convert char into correct row and col
      row = check_range(row_in - '1');
      col = check_range(toupper(col_in) - 'A');
  }
@@ -55,12 +56,15 @@
  }
  
  int Position::check_range(int val) {
+    // return closest number(MAX_GRID_SIZE - 1) if val is larger than MAX_GRID_SIZE
      if (val >= MAX_GRID_SIZE) {
          return MAX_GRID_SIZE - 1;
      }
+    // return closest number 0 if val is smaller than 0
      else if (val < 0) {
          return 0;
      }
+     // return val if val is in MAX_GRID_SIZE
      else {
          return val;
      }
