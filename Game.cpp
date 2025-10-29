@@ -22,8 +22,8 @@ Game::Game() {
 }
 
 Game::Game(Player player1, string grid1, Player player2, string grid2) {
-    player1 = p1;
-    player2 = p2;
+    p1 = player1;
+    p2 = player2;
 
     // p1 setup
     if (!grid1.empty()) {
@@ -65,7 +65,7 @@ Player Game::get_p2() {
 
 string Game::get_move(string player_name) {
     string move;
-    cout << player_name << " enter your move:"
+    cout << player_name << " enter your move:";
     cin >> move;
     return move;
 }
@@ -74,7 +74,7 @@ bool Game::check_valid_move(string move) {
     // Error 1: checking string length
     if (move.length() != 2) {
         cout << p1.get_move() << " you entered an invalid input" << endl;
-        return false'
+        return false;
     }
 
     // extracting row and col chars from string
@@ -99,56 +99,54 @@ bool Game::check_valid_move(string move) {
 void Game::start(char difficulty, int max_num_rounds) {
     int round = 0;
 
-    // continue until someone wins or we reach the round limit
     while (!p1.destroyed() && !p2.destroyed() && round < max_num_rounds) {
         round++;
 
-        // p1 turn
+        // === Player 1 turn ===
         string move = get_move(p1.get_name());
         while (!check_valid_move(move)) {
             move = get_move(p1.get_name());
         }
 
-        // converting move string to positions
         Position pos(move);
         p1.attack(p2, pos);
 
-        // print grids
+        // Print grids
         cout << "Your grid" << endl;
         p1.print_grid();
 
         cout << p2.get_name() << "'s grid" << endl;
         p1.print_guess_grid();
 
-        // check if p1 won
+        // If p1 wins, end game immediately
         if (p2.destroyed()) {
             cout << "Game over, winner is " << p1.get_name()
                  << " in " << round << " rounds" << endl;
-            break; // Don’t let CPU move after p1 wins
+            return;
         }
 
-        // p2 turn (CPU)
+        // === Player 2 turn (CPU) ===
         opponent_make_move(difficulty);
 
-        // print grids
+        // Print grids again
         cout << "Your grid" << endl;
         p1.print_grid();
 
         cout << p2.get_name() << "'s grid" << endl;
         p1.print_guess_grid();
 
-        // check if p2 wins
+        // If p2 wins, end game immediately
         if (p1.destroyed()) {
             cout << "Game over, winner is " << p2.get_name()
                  << " in " << round << " rounds" << endl;
-            break;
+            return;
         }
     }
 
-    // If game ended due to reaching max rounds and no one destroyed
+    // If max rounds reached and no winner
     if (!p1.destroyed() && !p2.destroyed() && round == max_num_rounds) {
-        cout << "Game over, winner is " << p1.get_name()
-             << " in " << round << " rounds" << endl;
+        cout << "Game over, winner is no one in " 
+             << round << " rounds" << endl;
     }
 }
 
