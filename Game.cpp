@@ -110,13 +110,13 @@
          Position pos(move[0], move[1]);
          p1.attack(p2, pos);
  
-         cout << "Your grid" << endl;
-         p1.print_grid();
- 
-         cout << p2.get_name() << "'s grid" << endl;
-         p1.print_guess_grid();
- 
          if (p2.destroyed()) {
+             cout << "Your grid" << endl;
+             p1.print_grid();
+ 
+             cout << p2.get_name() << "'s grid" << endl;
+             p1.print_guess_grid();
+             
              cout << "Game over, winner is " << p1.get_name()
                   << " in " << round << " rounds" << endl;
              return;
@@ -124,7 +124,7 @@
  
          // --- Player 2 Turn ---
          opponent_make_move(difficulty);
- 
+         
          cout << "Your grid" << endl;
          p1.print_grid();
  
@@ -137,7 +137,8 @@
              return;
          }
      }
- 
+     
+     
      // --- End condition ---
      if (!p1.destroyed() && !p2.destroyed() && round == max_num_rounds) {
          cout << "Game over, winner is no one in "
